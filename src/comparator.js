@@ -1,9 +1,11 @@
-const _ = require("lodash")
-const { render } = require("mustache")
-const fs = require("fs")
-const { compactJson, cleanedDDL } = require("./parser")
+import _ from 'lodash'
+import Mustache from 'mustache'
+import fs from "fs";
 
-class Comparator {
+import {cleanedDDL, compactJson} from "./parser.js";
+
+
+export default class Comparator {
   constructor(firstPath, secPath) {
     let pieces = firstPath.split("/")
     this.firstLabel = pieces[pieces.length-1]
@@ -89,7 +91,7 @@ class Comparator {
     const extraCount = firstExtraStructs.length + secExtraStructs.length
     const diffCount = diffStructs.length
 
-    const output = render(template, {
+    const output = Mustache.render(template, {
       label: {
         first: this.firstLabel,
         sec: this.secLabel,
@@ -145,8 +147,4 @@ class Comparator {
 
     return [first, sec]
   }
-}
-
-module.exports = {
-  Comparator: Comparator
 }
